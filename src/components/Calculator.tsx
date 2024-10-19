@@ -10,7 +10,10 @@ const Calculator = () => {
   };
 
   const handlePressOperation = (operation: string) => {
-    setInput((prev) => inputNumber + prev + operation);
+    if (inputNumber) {
+      setInput((prev) => prev + inputNumber + operation);
+      setInputNumber(""); // 연산자 입력 후 숫자 입력을 위해 inputNumber를 초기화
+    }
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
@@ -27,9 +30,14 @@ const Calculator = () => {
     } else if (operationsMap[key]) {
       handlePressOperation(operationsMap[key]);
     } else if (key === "Enter" || key === "=") {
-      // 결과 계산 (추가 구현 필요)
+      // 계산식
     } else if (key === "Escape" || key === "C") {
       clearInput();
+    } else if (key === "Backspace" || key === "X") {
+      setInputNumber((prev) => prev.slice(0, -1));
+    } else {
+      e.preventDefault();
+      return;
     }
   };
 
